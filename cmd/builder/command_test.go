@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Package main exporter-builder CLI의 진입점 패키지입니다.
 package main
 
 import "testing"
 
 func TestInitConfig(t *testing.T) {
-	configPath = "./test/config.yaml"
-	if err := initConfig(); err != nil {
+	cfg, err := initConfig("./test/config.yaml")
+	if err != nil {
 		t.Errorf("initConfig() error = %v", err)
 	}
 

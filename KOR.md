@@ -6,7 +6,7 @@ exporter_builder는 Prometheus의 exporter를 개발할 때 필요한 설정으�
 Prometheus exporter는 여러 개의 collector로 구성되어 있으며, 이들 각각은 특정한 역할을 수행합니다. Collector는 시스템이나 응용 프로그램으로부터 데이터를 수집하고, 이를 Prometheus 서버가 이해할 수 있는 메트릭 형태로 변환하여 전달합니다. 각 collector는 고유의 특성에 맞게 설계되어 있으며, 이에 따라 수집하는 데이터의 종류나 메트릭의 형태가 다를 수 있습니다.
 따라서 collector를 정의할 때는 해당 collector의 목적과 특성을 명확히 이해하고, 이에 맞게 설정을 조정하는 것이 중요합니다. 예를 들어, 시스템의 CPU 사용률을 측정하는 collector는 시스템의 성능 관련 데이터를 수집하고 이를 메트릭으로 변환해야 하므로, 관련된 메트릭을 정확하게 정의하고 수집 주기를 적절히 설정하는 것이 필수적입니다. 이러한 과정을 통해 Prometheus는 효과적으로 데이터를 모니터링하고, 시스템이나 응용 프로그램의 상태를 정확하게 파악할 수 있습니다.
 
-![exporter](https://github.com/k8shuginn/exporter_builder/assets/79127050/7977708b-b14f-4890-9bbf-83ef62872a86)
+![exporter](https://github.com/k8shuginn/exporter-builder/assets/79127050/7977708b-b14f-4890-9bbf-83ef62872a86)
 
 # Technology Stack
 exporter_builder는 Prometheus exporter를 쉽게 구축할 수 있도록 도와주는 도구로, 특정 기술 스택을 사용하여 개발되었습니다. 이 도구의 핵심 구성 요소는 다음과 같습니다:
@@ -17,7 +17,7 @@ exporter_builder는 Prometheus exporter를 쉽게 구축할 수 있도록 도와
 # Installation
 exporter_builder를 설치하려면 다음 명령어를 실행하세요.
 ```bash
-go install github.com/k8shuginn/exporter_builder/cmd/builder@latest
+go install github.com/k8shuginn/exporter-builder/cmd/builder@latest
 ```
 
 정상적으로 설치되었는지 확인하려면 다음 명령어를 실행하세요.
@@ -51,7 +51,7 @@ builder --config ./config.yaml
 ```
 이 명령어는 config.yaml 파일에 정의된 설정을 읽고, 해당 설정에 맞추어 새로운 exporter를 구성합니다.
 
-![tree](https://github.com/k8shuginn/exporter_builder/assets/79127050/f5960d80-4c9e-4493-9959-0f62c9e40924)
+![tree](https://github.com/k8shuginn/exporter-builder/assets/79127050/f5960d80-4c9e-4493-9959-0f62c9e40924)
 
 main.go: 이 파일은 exporter의 주 실행 파일로, Prometheus 서버와 통신하고 메트릭을 제공하는 서버를 초기화하고 실행합니다.
 collector 폴더: 이 폴더 내의 파일들은 메트릭을 수집하는 로직을 담고 있습니다. collector.go 파일은 각 메트릭 수집 방법을 구현합니다.
