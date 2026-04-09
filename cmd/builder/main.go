@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Package main exporter-builder CLI의 진입점 패키지입니다.
 package main
 
 import "github.com/spf13/cobra"
 
 func main() {
-	cmd, err := Command()
-	cobra.CheckErr(err)
+	cmd := Command()
 	cobra.CheckErr(cmd.Execute())
 }

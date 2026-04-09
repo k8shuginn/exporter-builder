@@ -1,0 +1,6 @@
+name: test-exporter
+module: github.com/test/test-exporter
+go_version: "1.26"
+collectors:
+  - instance
+  - vector

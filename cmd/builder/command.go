@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Package main exporter-builder CLI의 진입점 패키지입니다.
 package main
 
 import (
 	"fmt"
 	"log"
 
-	"github.com/k8shuginn/exporter_builder/cmd/builder/build"
-	"github.com/k8shuginn/exporter_builder/cmd/builder/config"
+	"github.com/k8shuginn/exporter-builder/internal/builder"
+	"github.com/k8shuginn/exporter-builder/internal/config"
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
@@ -27,26 +28,24 @@ import (
 )
 
 const (
-	ExampleMessage = "builer --config config.yaml"
+	// ExampleMessage CLI 사용 예시 메시지입니다.
+	ExampleMessage = "builder --config-file config.yaml"
 )
 
-var (
-	configPath string
-	cfg        = config.NewConfig()
-	k          = koanf.New(".")
-)
+// Command builder CLI 커맨드를 생성하여 반환합니다.
+func Command() *cobra.Command {
+	var configPath string
 
-// Command create a new builder command
-func Command() (*cobra.Command, error) {
 	cmd := &cobra.Command{
 		Use:     "builder",
 		Short:   "builder is a command line tool to generate exporter",
 		Example: ExampleMessage,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := initConfig(); err != nil {
+			cfg, err := initConfig(configPath)
+			if err != nil {
 				return err
 			}
-			if err := build.GenerateExporter(cfg); err != nil {
+			if err := builder.GenerateExporter(cfg); err != nil {
 				return err
 			}
 
@@ -54,20 +53,23 @@ func Command() (*cobra.Command, error) {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&configPath, "config", "./config.yaml", "config file path")
-	err := cmd.Flags().MarkDeprecated("config", "please use --config-file instead")
+	cmd.Flags().StringVar(&configPath, "config-file", "./config.yaml", "config file path")
 
-	return cmd, err
+	return cmd
 }
 
-// initConfig load config from file
-func initConfig() error {
+// initConfig configPath 경로의 YAML 파일을 읽어 Config를 반환합니다.
+// 파일 로드 또는 언마샬 실패 시 error를 반환합니다.
+func initConfig(configPath string) (*config.Config, error) {
+	k := koanf.New(".")
+	cfg := config.NewConfig()
+
 	if err := k.Load(file.Provider(configPath), yaml.Parser()); err != nil {
-		return fmt.Errorf("error loading config: %v", err)
+		return nil, fmt.Errorf("error loading config: %v", err)
 	}
 	if err := k.Unmarshal("", cfg); err != nil {
-		return fmt.Errorf("error unmarshaling config: %v", err)
+		return nil, fmt.Errorf("error unmarshaling config: %v", err)
 	}
 
-	return nil
+	return cfg, nil
 }
