@@ -71,9 +71,6 @@ collectors:
 builder --config-file config.yaml
 ```
 
-**3. 생성된 프로젝트 확인**
-![tree](docs/tree.png)
-
 ---
 
 ## 설정 파일
